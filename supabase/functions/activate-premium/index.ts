@@ -72,6 +72,47 @@ Deno.serve(async (req) => {
       });
     }
 
+
+    if (action === "generate") {
+      const cleanToken = String(token || "").trim();
+      if (cleanToken.length < 32) {
+        return new Response(JSON.stringify({ valid: false, error: "Token Premium tidak valid." }), {
+          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const tokenHash = await sha256(cleanToken);
+      const { data: license, error: licenseError } = await db.from("premium_licenses")
+        .select("id").eq("token_hash", tokenHash).is("revoked_at", null).maybeSingle();
+      if (licenseError) throw licenseError;
+      if (!license) {
+        return new Response(JSON.stringify({ valid: false, error: "Lisensi Premium tidak aktif." }), {
+          status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const basePrompt = String(prompt || "");
+      if (!basePrompt || basePrompt.length > 50000) {
+        return new Response(JSON.stringify({ valid: false, error: "Isi prompt tidak valid." }), {
+          status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const opts = (options && typeof options === "object") ? options : {};
+      const clean = (value: unknown, max = 2000) => String(value ?? "").trim().slice(0, max);
+      const premiumText = [
+        "",
+        "PENGATURAN PREMIUM:",
+        "- Style visual: " + clean(opts.style, 200),
+        "- Format: " + clean(opts.size, 200),
+        "- Kalimat FOMO: " + clean(opts.fomo, 500),
+        "- CTA alternatif: " + clean(opts.cta, 200),
+        "- Instruksi visual: " + (clean(opts.extra, 2000) || "(tidak ada)"),
+        "- Negative prompt: " + (clean(opts.negative, 2000) || "(tidak ada)")
+      ].join("\\n");
+      return new Response(JSON.stringify({ valid: true, prompt: basePrompt + premiumText }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     if (action === "verify") {
       const cleanToken = String(token || "").trim();
       if (cleanToken.length < 32) {
