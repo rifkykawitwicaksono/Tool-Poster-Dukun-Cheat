@@ -173,7 +173,7 @@ async function verifyPremium(){
  const token=localStorage.getItem(PREMIUM_TOKEN_KEY);
  if(!token || PREMIUM_API_URL.startsWith("ISI_") || PREMIUM_ANON_KEY.startsWith("ISI_")){setPremium(false);return}
  try{
-  const response=await fetch(PREMIUM_API_URL.replace(/\\/$/,"")+"/functions/v1/activate-premium",{
+  const response=await fetch(PREMIUM_API_URL.replace(/\/$/,"")+"/functions/v1/activate-premium",{
    method:"POST",
    headers:{"Content-Type":"application/json","apikey":PREMIUM_ANON_KEY,"Authorization":"Bearer "+PREMIUM_ANON_KEY},
    body:JSON.stringify({action:"verify",token})
