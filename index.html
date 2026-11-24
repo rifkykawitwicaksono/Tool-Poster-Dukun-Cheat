@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DUKUN CHEAT — Poster Prompt Generator</title>
+<style>
+:root{--bg:#090612;--panel:#151025;--panel2:#1d1435;--line:#493078;--purple:#9b35ff;--cyan:#38d8ff;--text:#f5efff;--muted:#b9abcF}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#29134a 0,transparent 42%),#090612;color:var(--text);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif}
+header{padding:24px 20px 18px;border-bottom:1px solid #39245d;background:#0d0818}
+.wrap{max-width:1200px;margin:auto;padding:0 18px}h1{font-size:clamp(22px,4vw,32px);margin:0;font-weight:900;letter-spacing:.4px}header p{margin:6px 0 0;color:var(--muted)}
+main{max-width:1200px;margin:22px auto;padding:0 18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.panel{background:linear-gradient(160deg,#1b1230,#100b1d);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 12px 40px #0007}
+h2{font-size:18px;margin:0 0 14px;color:#e8d8ff}.fixed{border:1px solid #3a2b5b;background:#100b1c;padding:12px;border-radius:12px;margin-bottom:16px}
+.fixed strong{color:#c99bff}.fixed p{margin:4px 0;color:#cbbfe0;font-size:13px}
+label{display:block;font-size:13px;color:#d7c9ef;margin:12px 0 5px;font-weight:700}
+input,textarea{width:100%;background:#0b0813;color:#fff;border:1px solid #49366b;border-radius:9px;padding:11px 12px;font:inherit;outline:none}
+input:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 2px #38d8ff22}
+textarea{min-height:75px;resize:vertical}.price-head,.price-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin:8px 0}.price-head{font-size:12px;font-weight:800;color:#c99bff;padding:0 2px}.price-head span{min-width:0}
+button{border:0;border-radius:10px;padding:11px 15px;font-weight:800;cursor:pointer;color:white;background:linear-gradient(100deg,#6e16e9,#bd22ff);box-shadow:0 0 18px #8d27ff55}
+button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}button.danger{background:#54203e;box-shadow:none;padding:8px 11px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.preview{background:#0a0712;border:1px solid #4b3375;border-radius:12px;padding:16px;white-space:pre-wrap;min-height:350px;font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;color:#eee4ff;overflow-wrap:anywhere}
+.hint{color:var(--muted);font-size:12px;margin-top:10px}
+@media(max-width:850px){main{grid-template-columns:1fr}}
+
+.premium-box{margin-top:18px;padding:15px;border:1px solid #8b5cf6;border-radius:14px;background:linear-gradient(145deg,#21123b,#100b1d);position:relative}
+.premium-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.premium-tag{font-size:11px;font-weight:900;letter-spacing:1px;color:#f5d0fe;border:1px solid #a855f7;border-radius:99px;padding:4px 9px}
+.locked-note{font-size:12px;color:#c8b5e8;margin:8px 0}
+.premium-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.premium-fields label{margin-top:8px}
+.premium-fields input,.premium-fields select,.premium-fields textarea{width:100%;background:#0b0813;color:#fff;border:1px solid #62458b;border-radius:9px;padding:10px;font:inherit}
+.premium-fields textarea{min-height:64px}
+.premium-field.locked{opacity:.45;filter:saturate(.5)}
+.premium-field.locked input,.premium-field.locked select,.premium-field.locked textarea{pointer-events:none}
+.lock-overlay{display:none}
+.locked .lock-overlay{display:block;color:#f0d9ff;font-size:12px;font-weight:800;margin-top:5px}
+.premium-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.demo-warning{font-size:11px;color:#f5d0a5;margin-top:10px}
+@media(max-width:600px){.premium-fields{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>DUKUN CHEAT · POSTER PROMPT GENERATOR</h1><p>Generator prompt poster promosi digital — konten bisa diedit, gaya visual mengikuti contoh REZZX.</p></div></header>
+<main>
+<section class="panel">
+<h2>Isi konten poster</h2>
+<div class="fixed"><strong>Pengaturan desain dikunci mengikuti contoh</strong><p>Warna hitam–ungu neon–violet–biru elektrik · cyber gaming futuristik · karakter gamer di kiri · metallic 3D · neon glow · format Instagram Portrait 1080 × 1350 px.</p><p>Pengaturan ini sengaja tidak dibuat sebagai pilihan agar semua poster tetap konsisten dengan identitas contoh.</p></div>
+<label for="brand">Nama brand</label><input id="brand" value="DUKUN CHEAT">
+<label for="brandline">Deskripsi brand</label><input id="brandline" value="TOP UP • GAME • DIGITAL SOLUTION">
+<label for="product">Nama produk / judul utama</label><input id="product" value="REZZX">
+<label for="platform">Platform / subjudul</label><input id="platform" value="iOS & ANDROID">
+<label for="headline">Headline promosi</label><input id="headline" value="AKSES PREMIUM">
+<label for="subline">Kalimat pendukung</label><textarea id="subline">Solusi premium untuk kebutuhan perangkat iOS dan Android kamu!</textarea>
+<label>Pilihan durasi & harga</label>
+<div class="price-head"><span>Durasi</span><span>Harga Publik (kiri)</span><span>Harga Reseller (kanan)</span><span></span></div>
+<div id="prices"></div>
+<div class="actions"><button type="button" class="secondary" id="addPrice">+ Tambah durasi & harga</button></div>
+
+<div class="premium-box" id="premiumBox">
+ <div class="premium-top"><h2 style="margin:0">Fitur Premium</h2><span class="premium-tag" id="premiumStatus">🔒 TERKUNCI</span></div>
+ <p class="locked-note">Buka opsi desain lanjutan untuk membuat prompt poster lebih spesifik.</p>
+ <div id="premiumFields" class="premium-fields locked">
+  <div class="premium-field"><label for="pStyle">Style visual premium</label><select id="pStyle"><option>Cyberpunk cinematic</option><option>Luxury metallic 3D</option><option>Neon gaming esports</option><option>Futuristic technology</option><option>Dark premium minimal</option></select></div>
+  <div class="premium-field"><label for="pSize">Format poster</label><select id="pSize"><option>Instagram Portrait 1080 × 1350 px</option><option>Instagram Story 1080 × 1920 px</option><option>Square Feed 1080 × 1080 px</option><option>Landscape 1920 × 1080 px</option></select></div>
+  <div class="premium-field"><label for="pFomo">Gaya kalimat FOMO</label><select id="pFomo"><option>Yang lain sudah upgrade, kamu kapan?</option><option>Jangan sampai ketinggalan kesempatan!</option><option>Kesempatan harga spesial tidak selalu ada!</option><option>Jangan cuma jadi penonton!</option><option>Tulis sendiri di kolom berikut</option></select></div>
+  <div class="premium-field" id="pFomoCustomWrap" style="display:none"><label for="pFomoCustom">Kalimat FOMO custom</label><textarea id="pFomoCustom" placeholder="Tulis kalimat promosi sendiri di sini..."></textarea></div>
+  <div class="premium-field"><label for="pCta">CTA premium</label><select id="pCta"><option>AMANKAN SEKARANG!</option><option>JANGAN TUNDA, CHECKOUT SEKARANG!</option><option>KLAIM HARGA SPESIAL!</option><option>UPGRADE SEKARANG!</option></select></div>
+  <div class="premium-field"><label for="pExtra">Instruksi visual tambahan</label><textarea id="pExtra" placeholder="Contoh: buat panel harga lebih dominan, produk terlihat besar..."></textarea></div>
+  <div class="premium-field"><label for="pNegative">Negative prompt</label><textarea id="pNegative" placeholder="Contoh: teks blur, harga berubah, watermark, layout berantakan..."></textarea></div>
+ </div>
+ <div class="premium-actions"><button type="button" id="unlockDemo">Simulasikan UNLOCK</button><button type="button" class="secondary" id="lockDemo">Kunci kembali</button></div>
+ <p class="demo-warning">MODE DEMO: tombol ini hanya untuk mencoba tampilan. Belum memverifikasi pembayaran atau akun. Sistem premium sungguhan perlu Supabase dan verifikasi pembayaran di server.</p>
+</div>
+
+<label for="cta">Call to action</label><input id="cta" value="ORDER SEKARANG!">
+<label for="slogan">Slogan bawah</label><input id="slogan" value="Top Up Mudah, Main Lebih Seru!">
+<label for="contact">Nomor WhatsApp / tautan pemesanan (opsional)</label><input id="contact" placeholder="Isi nomor WhatsApp atau tautan pemesanan">
+<label for="notes">Catatan tambahan untuk AI (opsional)</label><textarea id="notes" placeholder="Contoh: tonjolkan nama produk, pastikan panel harga paling mudah dibaca."></textarea>
+<div class="actions"><button type="button" id="generate">Perbarui prompt</button><button type="button" class="secondary" id="reset">Reset contoh REZZX</button></div>
+</section>
+<section class="panel">
+<h2>Prompt siap digunakan</h2>
+<div class="preview" id="output" aria-live="polite"></div>
+<div class="actions"><button type="button" id="copy">Salin prompt</button><button type="button" class="secondary" id="download">Unduh .txt</button></div>
+<p class="hint">Tool ini menyusun prompt teks. Untuk menghasilkan gambar, salin prompt ke AI pembuat gambar pilihan Anda. AI dapat keliru menulis teks dan angka; periksa kembali semua harga sebelum poster dipublikasikan.</p>
+</section>
+</main>
+<script>
+const defaults=[
+["1 Jam","Rp5.000",""],["3 Jam","Rp7.000",""],["6 Jam","Rp13.000",""],["12 Jam","Rp17.000",""],
+["1 Hari","Rp22.000",""],["3 Hari","Rp43.000",""],["7 Hari","Rp107.000",""],["10 Hari","Rp120.000",""]
+];
+const $=id=>document.getElementById(id);
+function addPrice(duration="",publicPrice="",resellerPrice=""){
+ const row=document.createElement("div");row.className="price-row";
+ const d=document.createElement("input");d.placeholder="Durasi";d.value=duration;d.setAttribute("aria-label","Durasi");
+ const pub=document.createElement("input");pub.placeholder="Harga publik";pub.value=publicPrice;pub.setAttribute("aria-label","Harga publik");
+ const res=document.createElement("input");res.placeholder="Harga reseller";res.value=resellerPrice;res.setAttribute("aria-label","Harga reseller");
+ const del=document.createElement("button");del.type="button";del.className="danger";del.textContent="Hapus";del.onclick=()=>{row.remove();buildPrompt()};
+ [d,pub,res].forEach(x=>x.addEventListener("input",buildPrompt));row.append(d,pub,res,del);$("prices").append(row);
+}
+function val(id){return $(id).value.trim()}
+function priceLines(){return [...$("prices").children].map(r=>{const i=r.querySelectorAll("input");return `${i[0].value.trim()} — Harga publik: ${i[1].value.trim()||"(belum diisi)"} — Harga reseller: ${i[2].value.trim()||"(belum diisi)"}`}).filter(x=>!x.startsWith(" — "))}
+function buildPrompt(){
+ const prices=priceLines();
+ const contact=val("contact");
+ const extra=val("notes");
+ const premiumOn=document.body.classList.contains("premium-on");
+ const fomoText=val("pFomoCustom") || (val("pFomo")==="Tulis sendiri di kolom berikut"?"(belum ditulis)":val("pFomo"));
+ const premiumText=premiumOn?("\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+val("pStyle")+"\\n- Format: "+val("pSize")+"\\n- Kalimat FOMO: "+fomoText+"\\n- CTA alternatif: "+val("pCta")+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)")):"";
+ const prompt=`Buat poster promosi produk digital profesional untuk brand ${val("brand")}, dengan desain premium futuristik bertema cyber gaming.
+
+UKURAN DAN GAYA VISUAL (TETAP, JANGAN DIUBAH):
+- Ukuran Instagram Portrait 1080 × 1350 px.
+- Dominasi hitam, ungu neon, violet, dan biru elektrik.
+- Nuansa cyberpunk, gaming premium, teknologi futuristik.
+- Efek cahaya neon, metallic 3D, glowing border, dan partikel digital.
+- Tipografi tebal, modern, tajam, dan mudah dibaca.
+- Karakter ilustrasi gamer futuristik di sisi kiri.
+- Identitas brand di bagian atas dan bawah.
+- Komposisi rapi, profesional, kontras, tidak terlalu ramai.
+- Panel harga jelas dan mudah dibaca; jangan menutupi informasi utama.
+- Sisakan ruang untuk nomor WhatsApp atau tautan pemesanan.
+
+TEKS YANG WAJIB DITAMPILKAN:
+${val("brand")}
+${val("brandline")}
+
+${val("product")}
+
+${val("platform")}
+
+${val("headline")}
+
+${val("subline")}
+
+PILIHAN DURASI & HARGA (TAMPILKAN DUA KOLOM HARGA: HARGA PUBLIK DAN HARGA RESELLER):
+${prices.length?prices.join("\n"):"(Belum diisi)"}
+
+CALL TO ACTION:
+${val("cta")}
+
+SLOGAN:
+${val("slogan")}${contact?`\n\nKONTAK / TAUTAN PEMESANAN:\n${contact}`:""}
+
+ATURAN PENTING:
+- Salin semua teks dan nominal persis seperti yang diberikan.
+- Jangan mengubah durasi, harga, ejaan, atau nama produk.
+- Jangan menambahkan harga reseller.
+- Jangan menambahkan fitur, jaminan keamanan, atau klaim layanan yang tidak tercantum.
+- Pastikan seluruh teks terbaca jelas dan tidak terpotong.
+- Jangan mengarang informasi tambahan.${extra?`\n\nCATATAN TAMBAHAN:\n${extra}`:""}
+
+Hasil akhir harus terlihat seperti poster promosi toko digital premium dengan identitas visual yang konsisten dengan contoh REZZX.${premiumText}`;
+ $("output").textContent=prompt;return prompt;
+}
+defaults.forEach(x=>addPrice(...x));
+function setPremium(on){
+ document.body.classList.toggle("premium-on",on);
+ $("premiumFields").classList.toggle("locked",!on);
+ $("premiumFields").querySelectorAll(".premium-field").forEach(el=>el.classList.toggle("locked",!on));
+ $("premiumStatus").textContent=on?"✓ DEMO TERBUKA":"🔒 TERKUNCI";
+ $("unlockDemo").textContent=on?"PREMIUM DEMO AKTIF":"Simulasikan UNLOCK";
+ $("lockDemo").style.display=on?"inline-block":"none";
+ buildPrompt();
+}
+$("unlockDemo").onclick=()=>setPremium(true);
+$("lockDemo").onclick=()=>setPremium(false);
+$("premiumFields").querySelectorAll("input,select,textarea").forEach(el=>el.addEventListener("input",buildPrompt));
+$("pFomo").addEventListener("change",()=>{
+ const showCustom=val("pFomo")==="Tulis sendiri di kolom berikut";
+ $("pFomoCustomWrap").style.display=showCustom?"block":"none";
+ if(!showCustom)$("pFomoCustom").value="";
+ buildPrompt();
+});
+setPremium(false);
+buildPrompt();
+$("addPrice").onclick=()=>addPrice("","");$("generate").onclick=buildPrompt;
+$("reset").onclick=()=>{
+ ["brand","brandline","product","platform","headline","subline","cta","slogan","contact","notes"].forEach((id,i)=>$(id).value=["DUKUN CHEAT","TOP UP • GAME • DIGITAL SOLUTION","REZZX","iOS & ANDROID","AKSES PREMIUM","Solusi premium untuk kebutuhan perangkat iOS dan Android kamu!","ORDER SEKARANG!","Top Up Mudah, Main Lebih Seru!","",""][i]);
+ $("prices").innerHTML="";defaults.forEach(x=>addPrice(...x));buildPrompt();
+};
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText(buildPrompt());$("copy").textContent="Tersalin!";setTimeout(()=>$("copy").textContent="Salin prompt",1400)}catch(e){alert("Tidak bisa menyalin otomatis. Pilih teks prompt lalu salin manual.")}};
+$("download").onclick=()=>{const blob=new Blob([buildPrompt()],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="prompt-poster-dukun-cheat.txt";a.click();URL.revokeObjectURL(a.href)};
+</script>
+</body></html>
