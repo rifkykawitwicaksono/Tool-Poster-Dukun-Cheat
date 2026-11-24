@@ -109,7 +109,8 @@ function buildPrompt(){
  const contact=val("contact");
  const extra=val("notes");
  const premiumOn=document.body.classList.contains("premium-on");
- const fomoText=val("pFomoCustom") || (val("pFomo")==="Tulis sendiri di kolom berikut"?"(belum ditulis)":val("pFomo"));\n const premiumText=premiumOn?("\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+val("pStyle")+"\\n- Format: "+val("pSize")+"\\n- Kalimat FOMO: "+fomoText+"\\n- CTA alternatif: "+val("pCta")+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)")):"";
+ const fomoText=val("pFomoCustom") || (val("pFomo")==="Tulis sendiri di kolom berikut"?"(belum ditulis)":val("pFomo"));
+ const premiumText=premiumOn?("\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+val("pStyle")+"\\n- Format: "+val("pSize")+"\\n- Kalimat FOMO: "+fomoText+"\\n- CTA alternatif: "+val("pCta")+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)")):"";
  const prompt=`Buat poster promosi produk digital profesional untuk brand ${val("brand")}, dengan desain premium futuristik bertema cyber gaming.
 
 UKURAN DAN GAYA VISUAL (TETAP, JANGAN DIUBAH):
