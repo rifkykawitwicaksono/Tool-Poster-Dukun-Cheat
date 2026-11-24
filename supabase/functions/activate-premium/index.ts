@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { action, code, token } = await req.json();
+    const { action, code, token, prompt, options } = await req.json();
     const url = Deno.env.get("SUPABASE_URL");
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     if (!url || !serviceKey) throw new Error("Konfigurasi server belum lengkap.");
@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
         "- CTA alternatif: " + clean(opts.cta, 200),
         "- Instruksi visual: " + (clean(opts.extra, 2000) || "(tidak ada)"),
         "- Negative prompt: " + (clean(opts.negative, 2000) || "(tidak ada)")
-      ].join("\\n");
+      ].join("\n");
       return new Response(JSON.stringify({ valid: true, prompt: basePrompt + premiumText }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
