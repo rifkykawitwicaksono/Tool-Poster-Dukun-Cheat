@@ -66,6 +66,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
   <div class="premium-field"><label for="pStyle">Style visual premium</label><select id="pStyle"><option>Cyberpunk cinematic</option><option>Luxury metallic 3D</option><option>Neon gaming esports</option><option>Futuristic technology</option><option>Dark premium minimal</option></select></div>
   <div class="premium-field"><label for="pSize">Format poster</label><select id="pSize"><option>Instagram Portrait 1080 × 1350 px</option><option>Instagram Story 1080 × 1920 px</option><option>Square Feed 1080 × 1080 px</option><option>Landscape 1920 × 1080 px</option></select></div>
   <div class="premium-field"><label for="pFomo">Gaya kalimat FOMO</label><select id="pFomo"><option>Yang lain sudah upgrade, kamu kapan?</option><option>Jangan sampai ketinggalan kesempatan!</option><option>Kesempatan harga spesial tidak selalu ada!</option><option>Jangan cuma jadi penonton!</option><option>Tulis sendiri di kolom berikut</option></select></div>
+  <div class="premium-field"><label for="pFomoCustom">Kalimat FOMO custom (opsional)</label><textarea id="pFomoCustom" placeholder="Tulis kalimat promosi sendiri di sini..."></textarea></div>
   <div class="premium-field"><label for="pCta">CTA premium</label><select id="pCta"><option>AMANKAN SEKARANG!</option><option>JANGAN TUNDA, CHECKOUT SEKARANG!</option><option>KLAIM HARGA SPESIAL!</option><option>UPGRADE SEKARANG!</option></select></div>
   <div class="premium-field"><label for="pExtra">Instruksi visual tambahan</label><textarea id="pExtra" placeholder="Contoh: buat panel harga lebih dominan, produk terlihat besar..."></textarea></div>
   <div class="premium-field"><label for="pNegative">Negative prompt</label><textarea id="pNegative" placeholder="Contoh: teks blur, harga berubah, watermark, layout berantakan..."></textarea></div>
@@ -108,7 +109,7 @@ function buildPrompt(){
  const contact=val("contact");
  const extra=val("notes");
  const premiumOn=document.body.classList.contains("premium-on");
- const premiumText=premiumOn?("\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+val("pStyle")+"\\n- Format: "+val("pSize")+"\\n- Kalimat FOMO: "+val("pFomo")+"\\n- CTA alternatif: "+val("pCta")+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)")):"";
+ const fomoText=val("pFomoCustom") || (val("pFomo")==="Tulis sendiri di kolom berikut"?"(belum ditulis)":val("pFomo"));\n const premiumText=premiumOn?("\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+val("pStyle")+"\\n- Format: "+val("pSize")+"\\n- Kalimat FOMO: "+fomoText+"\\n- CTA alternatif: "+val("pCta")+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)")):"";
  const prompt=`Buat poster promosi produk digital profesional untuk brand ${val("brand")}, dengan desain premium futuristik bertema cyber gaming.
 
 UKURAN DAN GAYA VISUAL (TETAP, JANGAN DIUBAH):
