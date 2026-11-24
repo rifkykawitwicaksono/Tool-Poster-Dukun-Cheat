@@ -21,12 +21,29 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { action, code, token, prompt, options } = await req.json();
+    const { action, code, token, prompt, options, adminKey, count } = await req.json();
     const url = Deno.env.get("SUPABASE_URL");
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     if (!url || !serviceKey) throw new Error("Konfigurasi server belum lengkap.");
 
     const db = createClient(url, serviceKey, { auth: { persistSession: false } });
+
+    if (action === "create_codes") {
+      const expectedKey = Deno.env.get("DUKUN_ADMIN_KEY");
+      const suppliedKey = String(adminKey || "");
+      if (!expectedKey || suppliedKey.length < 16 || suppliedKey !== expectedKey) {
+        return new Response(JSON.stringify({ valid: false, error: "Kata sandi admin salah." }), {
+          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const amount = Math.max(1, Math.min(20, Math.floor(Number(count) || 1)));
+      const { data: generated, error: generateError } = await db.rpc("generate_dukun_activation_codes", { p_count: amount });
+      if (generateError) throw generateError;
+      const codes = (generated || []).map((row: { activation_code: string }) => row.activation_code);
+      return new Response(JSON.stringify({ valid: true, codes }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     if (action === "activate") {
       const cleanCode = String(code || "").replace(/[^a-f0-9]/gi, "").toUpperCase();
