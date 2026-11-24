@@ -24,20 +24,27 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
 .hint{color:var(--muted);font-size:12px;margin-top:10px}
 @media(max-width:850px){main{grid-template-columns:1fr}}
 
-.premium-box{margin-top:18px;padding:15px;border:1px solid #8b5cf6;border-radius:14px;background:linear-gradient(145deg,#21123b,#100b1d);position:relative}
+.premium-box{margin-top:18px;padding:16px;border:1px solid #8b5cf6;border-radius:14px;background:linear-gradient(145deg,#21123b,#100b1d);position:relative;overflow:hidden}
 .premium-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.premium-tag{font-size:11px;font-weight:900;letter-spacing:1px;color:#f5d0fe;border:1px solid #a855f7;border-radius:99px;padding:4px 9px}
-.locked-note{font-size:12px;color:#c8b5e8;margin:8px 0}
-.premium-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.premium-tag{font-size:11px;font-weight:900;letter-spacing:1px;color:#f5d0fe;border:1px solid #a855f7;border-radius:99px;padding:5px 10px;background:#160d27}
+.locked-note{font-size:12px;color:#c8b5e8;margin:8px 0 12px}
+.premium-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative}
 .premium-fields label{margin-top:8px}
 .premium-fields input,.premium-fields select,.premium-fields textarea{width:100%;background:#0b0813;color:#fff;border:1px solid #62458b;border-radius:9px;padding:10px;font:inherit}
 .premium-fields textarea{min-height:64px}
-.premium-field.locked{opacity:.45;filter:saturate(.5)}
+.premium-fields.locked{filter:blur(2.5px) saturate(.45);opacity:.38;pointer-events:none;user-select:none}
+.premium-fields.locked:after{content:"";position:absolute;inset:0;z-index:2;background:#10091c66;border-radius:10px}
+.premium-field.locked{opacity:.55}
 .premium-field.locked input,.premium-field.locked select,.premium-field.locked textarea{pointer-events:none}
-.lock-overlay{display:none}
-.locked .lock-overlay{display:block;color:#f0d9ff;font-size:12px;font-weight:800;margin-top:5px}
+.lock-screen{display:none;text-align:center;padding:16px 12px;margin:12px 0 4px;border:1px dashed #9562cf;border-radius:12px;background:linear-gradient(135deg,#180f29,#25143b)}
+.premium-box.is-locked .lock-screen{display:block}
+.lock-screen-icon{font-size:32px;line-height:1.2;margin-bottom:7px}
+.lock-screen strong{display:block;color:#f1d8ff;font-size:14px}
+.lock-screen span{display:block;color:#c8b5e8;font-size:12px;margin-top:4px}
 .premium-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
 .demo-warning{font-size:11px;color:#f5d0a5;margin-top:10px}
+#unlockDemo{background:linear-gradient(100deg,#8a4be8,#d946ef);box-shadow:0 0 18px #a855f755}
+#lockDemo{display:none}
 @media(max-width:600px){.premium-fields{grid-template-columns:1fr}}
 
 </style>
@@ -62,7 +69,8 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
 <div class="premium-box" id="premiumBox">
  <div class="premium-top"><h2 style="margin:0">Fitur Premium</h2><span class="premium-tag" id="premiumStatus">🔒 TERKUNCI</span></div>
  <p class="locked-note">Buka opsi desain lanjutan untuk membuat prompt poster lebih spesifik.</p>
- <div id="premiumFields" class="premium-fields locked">
+ <div class="lock-screen" id="premiumLockScreen"><div class="lock-screen-icon">🔒</div><strong>FITUR PREMIUM SEDANG TERKUNCI</strong><span>Tekan tombol UNLOCK DEMO untuk melihat dan mencoba seluruh pengaturan Premium.</span></div>
+ <div id="premiumFields" class="premium-fields locked" aria-disabled="true">
   <div class="premium-field"><label for="pStyle">Style visual premium</label><select id="pStyle"><option>Cyberpunk cinematic</option><option>Luxury metallic 3D</option><option>Neon gaming esports</option><option>Futuristic technology</option><option>Dark premium minimal</option></select></div>
   <div class="premium-field"><label for="pSize">Format poster</label><select id="pSize"><option>Instagram Portrait 1080 × 1350 px</option><option>Instagram Story 1080 × 1920 px</option><option>Square Feed 1080 × 1080 px</option><option>Landscape 1920 × 1080 px</option></select></div>
   <div class="premium-field"><label for="pFomo">Gaya kalimat FOMO</label><select id="pFomo"><option>Yang lain sudah upgrade, kamu kapan?</option><option>Jangan sampai ketinggalan kesempatan!</option><option>Kesempatan harga spesial tidak selalu ada!</option><option>Jangan cuma jadi penonton!</option><option>Tulis sendiri di kolom berikut</option></select></div>
@@ -71,7 +79,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
   <div class="premium-field"><label for="pExtra">Instruksi visual tambahan</label><textarea id="pExtra" placeholder="Contoh: buat panel harga lebih dominan, produk terlihat besar..."></textarea></div>
   <div class="premium-field"><label for="pNegative">Negative prompt</label><textarea id="pNegative" placeholder="Contoh: teks blur, harga berubah, watermark, layout berantakan..."></textarea></div>
  </div>
- <div class="premium-actions"><button type="button" id="unlockDemo">Simulasikan UNLOCK</button><button type="button" class="secondary" id="lockDemo">Kunci kembali</button></div>
+ <div class="premium-actions"><button type="button" id="unlockDemo">🔓 BUKA FITUR PREMIUM (DEMO)</button><button type="button" class="secondary" id="lockDemo">🔒 KUNCI KEMBALI</button></div>
  <p class="demo-warning">MODE DEMO: tombol ini hanya untuk mencoba tampilan. Belum memverifikasi pembayaran atau akun. Sistem premium sungguhan perlu Supabase dan verifikasi pembayaran di server.</p>
 </div>
 
@@ -160,10 +168,12 @@ Hasil akhir harus terlihat seperti poster promosi toko digital premium dengan id
 defaults.forEach(x=>addPrice(...x));
 function setPremium(on){
  document.body.classList.toggle("premium-on",on);
+ $("premiumBox").classList.toggle("is-locked",!on);
  $("premiumFields").classList.toggle("locked",!on);
+ $("premiumFields").setAttribute("aria-disabled",String(!on));
  $("premiumFields").querySelectorAll(".premium-field").forEach(el=>el.classList.toggle("locked",!on));
- $("premiumStatus").textContent=on?"✓ DEMO TERBUKA":"🔒 TERKUNCI";
- $("unlockDemo").textContent=on?"PREMIUM DEMO AKTIF":"Simulasikan UNLOCK";
+ $("premiumStatus").textContent=on?"🔓 DEMO TERBUKA":"🔒 TERKUNCI";
+ $("unlockDemo").textContent=on?"✓ PREMIUM DEMO AKTIF":"🔓 BUKA FITUR PREMIUM (DEMO)";
  $("lockDemo").style.display=on?"inline-block":"none";
  buildPrompt();
 }
