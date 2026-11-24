@@ -169,7 +169,17 @@ const PREMIUM_ANON_KEY = "sb_publishable_Se_bCK0RjocYEqrTMJzBMg_8Byy5T5O";
 const PREMIUM_TOKEN_KEY = "dukun_cheat_premium_token";
 async function verifyPremium(){
  const token=localStorage.getItem(PREMIUM_TOKEN_KEY);
- if(!token || PREMIUM_API_URL.startsWith("ISI_") || PREMIUM_ANON_KEY.startsWith("ISI_")){setPremium(false);return}
+ if(!token){
+  setPremium(false);
+  $("premiumStatus").textContent="🔒 KODE BELUM TERSIMPAN";
+  return;
+ }
+ if(PREMIUM_API_URL.startsWith("ISI_") || PREMIUM_ANON_KEY.startsWith("ISI_")){
+  setPremium(false);
+  $("premiumStatus").textContent="⚠️ KONFIGURASI SERVER";
+  return;
+ }
+ $("premiumStatus").textContent="⏳ MEMERIKSA LISENSI...";
  try{
   const response=await fetch(PREMIUM_API_URL.replace(/\/$/,"")+"/functions/v1/activate-premium",{
    method:"POST",
@@ -177,9 +187,16 @@ async function verifyPremium(){
    body:JSON.stringify({action:"verify",token})
   });
   const data=await response.json();
-  if(!response.ok || !data.valid){localStorage.removeItem(PREMIUM_TOKEN_KEY);setPremium(false);return}
+  if(!response.ok || !data.valid){
+   setPremium(false);
+   $("premiumStatus").textContent="⚠️ LISENSI TIDAK TERVERIFIKASI";
+   return;
+  }
   setPremium(true);
- }catch(error){setPremium(false)}
+ }catch(error){
+  setPremium(false);
+  $("premiumStatus").textContent="⚠️ SERVER TIDAK TERJANGKAU";
+ }
 }
 function setPremium(on){
  document.body.classList.toggle("premium-on",on);
