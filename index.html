@@ -116,9 +116,6 @@ function buildPrompt(){
  const prices=priceLines();
  const contact=val("contact");
  const extra=val("notes");
- const premiumOn=document.body.classList.contains("premium-on");
- const fomoText=val("pFomoCustom") || (val("pFomo")==="Tulis sendiri di kolom berikut"?"(belum ditulis)":val("pFomo"));
- const premiumText=premiumOn?("\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+val("pStyle")+"\\n- Format: "+val("pSize")+"\\n- Kalimat FOMO: "+fomoText+"\\n- CTA alternatif: "+val("pCta")+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)")):"";
  const prompt=`Buat poster promosi produk digital profesional untuk brand ${val("brand")}, dengan desain premium futuristik bertema cyber gaming.
 
 UKURAN DAN GAYA VISUAL (TETAP, JANGAN DIUBAH):
@@ -162,7 +159,7 @@ ATURAN PENTING:
 - Pastikan seluruh teks terbaca jelas dan tidak terpotong.
 - Jangan mengarang informasi tambahan.${extra?`\n\nCATATAN TAMBAHAN:\n${extra}`:""}
 
-Hasil akhir harus terlihat seperti poster promosi toko digital premium dengan identitas visual yang konsisten dengan contoh REZZX.${premiumText}`;
+Hasil akhir harus terlihat seperti poster promosi toko digital premium dengan identitas visual yang konsisten dengan contoh REZZX.`;
  $("output").textContent=prompt;return prompt;
 }
 defaults.forEach(x=>addPrice(...x));
@@ -189,7 +186,7 @@ function setPremium(on){
  $("premiumFields").classList.toggle("locked",!on);
  $("premiumFields").setAttribute("aria-disabled",String(!on));
  $("premiumFields").querySelectorAll(".premium-field").forEach(el=>el.classList.toggle("locked",!on));
- $("premiumStatus").textContent=on?"🔓 DEMO TERBUKA":"🔒 TERKUNCI";
+ $("premiumStatus").textContent=on?"🔓 PREMIUM AKTIF":"🔒 TERKUNCI";
  $("unlockDemo").textContent=on?"✓ PREMIUM AKTIF":"🔑 AKTIVASI KODE PREMIUM";
  $("lockDemo").style.display=on?"inline-block":"none";
  buildPrompt();
@@ -206,12 +203,40 @@ $("pFomo").addEventListener("change",()=>{
 setPremium(false);
 verifyPremium();
 buildPrompt();
-$("addPrice").onclick=()=>addPrice("","");$("generate").onclick=buildPrompt;
+$("addPrice").onclick=()=>addPrice("","");async function generatePrompt(){
+ const basePrompt=buildPrompt();
+ if(!document.body.classList.contains("premium-on")) return basePrompt;
+ const token=localStorage.getItem(PREMIUM_TOKEN_KEY);
+ if(!token){setPremium(false);return basePrompt}
+ $("generate").disabled=true;$("generate").textContent="Memeriksa lisensi...";
+ try{
+  const response=await fetch(PREMIUM_API_URL.replace(/\/$/,"")+"/functions/v1/activate-premium",{
+   method:"POST",
+   headers:{"Content-Type":"application/json","apikey":PREMIUM_ANON_KEY,"Authorization":"Bearer "+PREMIUM_ANON_KEY},
+   body:JSON.stringify({
+    action:"generate",token,prompt:basePrompt,
+    options:{
+     style:val("pStyle"),size:val("pSize"),
+     fomo:val("pFomo")==="Tulis sendiri di kolom berikut"?(val("pFomoCustom")||"(belum ditulis)"):val("pFomo"),
+     cta:val("pCta"),extra:val("pExtra"),negative:val("pNegative")
+    }
+   })
+  });
+  const data=await response.json();
+  if(!response.ok||!data.valid||typeof data.prompt!=="string") throw new Error(data.error||"Lisensi Premium tidak valid.");
+  $("output").textContent=data.prompt;
+  return data.prompt;
+ }catch(error){
+  $("output").textContent="Gagal membuat prompt Premium: "+(error.message||"Periksa koneksi dan coba lagi.");
+  return "";
+ }finally{$("generate").disabled=false;$("generate").textContent="Perbarui prompt"}
+}
+$("generate").onclick=generatePrompt;
 $("reset").onclick=()=>{
  ["brand","brandline","product","platform","headline","subline","cta","slogan","contact","notes"].forEach((id,i)=>$(id).value=["DUKUN CHEAT","TOP UP • GAME • DIGITAL SOLUTION","REZZX","iOS & ANDROID","AKSES PREMIUM","Solusi premium untuk kebutuhan perangkat iOS dan Android kamu!","ORDER SEKARANG!","Top Up Mudah, Main Lebih Seru!","",""][i]);
  $("prices").innerHTML="";defaults.forEach(x=>addPrice(...x));buildPrompt();
 };
-$("copy").onclick=async()=>{try{await navigator.clipboard.writeText(buildPrompt());$("copy").textContent="Tersalin!";setTimeout(()=>$("copy").textContent="Salin prompt",1400)}catch(e){alert("Tidak bisa menyalin otomatis. Pilih teks prompt lalu salin manual.")}};
-$("download").onclick=()=>{const blob=new Blob([buildPrompt()],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="prompt-poster-dukun-cheat.txt";a.click();URL.revokeObjectURL(a.href)};
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("output").textContent||buildPrompt());$("copy").textContent="Tersalin!";setTimeout(()=>$("copy").textContent="Salin prompt",1400)}catch(e){alert("Tidak bisa menyalin otomatis. Pilih teks prompt lalu salin manual.")}};
+$("download").onclick=()=>{const blob=new Blob([$("output").textContent||buildPrompt()],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="prompt-poster-dukun-cheat.txt";a.click();URL.revokeObjectURL(a.href)};
 </script>
 </body></html>
