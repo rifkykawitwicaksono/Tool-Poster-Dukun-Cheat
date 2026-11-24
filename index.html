@@ -69,7 +69,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
 <div class="premium-box" id="premiumBox">
  <div class="premium-top"><h2 style="margin:0">Fitur Premium</h2><span class="premium-tag" id="premiumStatus">🔒 TERKUNCI</span></div>
  <p class="locked-note">Buka opsi desain lanjutan untuk membuat prompt poster lebih spesifik.</p>
- <div class="lock-screen" id="premiumLockScreen"><div class="lock-screen-icon">🔒</div><strong>FITUR PREMIUM SEDANG TERKUNCI</strong><span>Tekan tombol UNLOCK DEMO untuk melihat dan mencoba seluruh pengaturan Premium.</span></div>
+ <div class="lock-screen" id="premiumLockScreen"><div class="lock-screen-icon">🔒</div><strong>FITUR PREMIUM SEDANG TERKUNCI</strong><span>Masukkan kode aktivasi Premium untuk membuka seluruh pengaturan lanjutan.</span></div>
  <div id="premiumFields" class="premium-fields locked" aria-disabled="true">
   <div class="premium-field"><label for="pStyle">Style visual premium</label><select id="pStyle"><option>Cyberpunk cinematic</option><option>Luxury metallic 3D</option><option>Neon gaming esports</option><option>Futuristic technology</option><option>Dark premium minimal</option></select></div>
   <div class="premium-field"><label for="pSize">Format poster</label><select id="pSize"><option>Instagram Portrait 1080 × 1350 px</option><option>Instagram Story 1080 × 1920 px</option><option>Square Feed 1080 × 1080 px</option><option>Landscape 1920 × 1080 px</option></select></div>
@@ -79,8 +79,8 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
   <div class="premium-field"><label for="pExtra">Instruksi visual tambahan</label><textarea id="pExtra" placeholder="Contoh: buat panel harga lebih dominan, produk terlihat besar..."></textarea></div>
   <div class="premium-field"><label for="pNegative">Negative prompt</label><textarea id="pNegative" placeholder="Contoh: teks blur, harga berubah, watermark, layout berantakan..."></textarea></div>
  </div>
- <div class="premium-actions"><button type="button" id="unlockDemo">🔓 BUKA FITUR PREMIUM (DEMO)</button><button type="button" class="secondary" id="lockDemo">🔒 KUNCI KEMBALI</button></div>
- <p class="demo-warning">MODE DEMO: tombol ini hanya untuk mencoba tampilan. Belum memverifikasi pembayaran atau akun. Sistem premium sungguhan perlu Supabase dan verifikasi pembayaran di server.</p>
+ <div class="premium-actions"><button type="button" id="unlockDemo">🔑 AKTIVASI KODE PREMIUM</button><button type="button" class="secondary" id="lockDemo">🔒 KELUAR PREMIUM</button></div>
+ <p class="demo-warning">Akses Premium dibuka setelah kode aktivasi diverifikasi oleh server. Pembelian dilakukan melalui Lynk.id.</p>
 </div>
 
 <label for="cta">Call to action</label><input id="cta" value="ORDER SEKARANG!">
@@ -166,6 +166,23 @@ Hasil akhir harus terlihat seperti poster promosi toko digital premium dengan id
  $("output").textContent=prompt;return prompt;
 }
 defaults.forEach(x=>addPrice(...x));
+const PREMIUM_API_URL = "ISI_URL_PROYEK_SUPABASE";
+const PREMIUM_ANON_KEY = "ISI_ANON_PUBLIC_KEY";
+const PREMIUM_TOKEN_KEY = "dukun_cheat_premium_token";
+async function verifyPremium(){
+ const token=localStorage.getItem(PREMIUM_TOKEN_KEY);
+ if(!token || PREMIUM_API_URL.startsWith("ISI_") || PREMIUM_ANON_KEY.startsWith("ISI_")){setPremium(false);return}
+ try{
+  const response=await fetch(PREMIUM_API_URL.replace(/\\/$/,"")+"/functions/v1/activate-premium",{
+   method:"POST",
+   headers:{"Content-Type":"application/json","apikey":PREMIUM_ANON_KEY,"Authorization":"Bearer "+PREMIUM_ANON_KEY},
+   body:JSON.stringify({action:"verify",token})
+  });
+  const data=await response.json();
+  if(!response.ok || !data.valid){localStorage.removeItem(PREMIUM_TOKEN_KEY);setPremium(false);return}
+  setPremium(true);
+ }catch(error){setPremium(false)}
+}
 function setPremium(on){
  document.body.classList.toggle("premium-on",on);
  $("premiumBox").classList.toggle("is-locked",!on);
@@ -173,12 +190,12 @@ function setPremium(on){
  $("premiumFields").setAttribute("aria-disabled",String(!on));
  $("premiumFields").querySelectorAll(".premium-field").forEach(el=>el.classList.toggle("locked",!on));
  $("premiumStatus").textContent=on?"🔓 DEMO TERBUKA":"🔒 TERKUNCI";
- $("unlockDemo").textContent=on?"✓ PREMIUM DEMO AKTIF":"🔓 BUKA FITUR PREMIUM (DEMO)";
+ $("unlockDemo").textContent=on?"✓ PREMIUM AKTIF":"🔑 AKTIVASI KODE PREMIUM";
  $("lockDemo").style.display=on?"inline-block":"none";
  buildPrompt();
 }
-$("unlockDemo").onclick=()=>setPremium(true);
-$("lockDemo").onclick=()=>setPremium(false);
+$("unlockDemo").onclick=()=>{location.href="./aktivasi.html"};
+$("lockDemo").onclick=()=>{localStorage.removeItem(PREMIUM_TOKEN_KEY);setPremium(false)};
 $("premiumFields").querySelectorAll("input,select,textarea").forEach(el=>el.addEventListener("input",buildPrompt));
 $("pFomo").addEventListener("change",()=>{
  const showCustom=val("pFomo")==="Tulis sendiri di kolom berikut";
@@ -187,6 +204,7 @@ $("pFomo").addEventListener("change",()=>{
  buildPrompt();
 });
 setPremium(false);
+verifyPremium();
 buildPrompt();
 $("addPrice").onclick=()=>addPrice("","");$("generate").onclick=buildPrompt;
 $("reset").onclick=()=>{
