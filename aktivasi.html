@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aktivasi Premium — DUKUN CHEAT</title>
+<style>
+:root{color-scheme:dark;--bg:#090612;--panel:#151025;--line:#493078;--purple:#9b35ff;--text:#f5efff;--muted:#b9abcf}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at 15% 0%,#29134a 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif}
+.card{width:min(100%,480px);padding:26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,#1b1230,#100b1d);box-shadow:0 12px 40px #0008}
+h1{font-size:25px;margin:0 0 6px}.muted{color:var(--muted);font-size:13px;margin:0 0 22px}
+label{display:block;font-weight:700;font-size:13px;margin:12px 0 6px}
+input{width:100%;padding:13px;border:1px solid #62458b;border-radius:10px;background:#0b0813;color:white;font:inherit;letter-spacing:1px;text-transform:uppercase}
+button{width:100%;margin-top:16px;padding:13px;border:0;border-radius:10px;color:white;font-weight:800;font-size:14px;cursor:pointer;background:linear-gradient(100deg,#6e16e9,#bd22ff)}
+button:disabled{opacity:.55;cursor:wait}.status{margin-top:14px;padding:12px;border-radius:10px;font-size:13px;display:none}.status.ok{display:block;border:1px solid #27875a;background:#103323;color:#b9f6d2}.status.err{display:block;border:1px solid #9b3c5b;background:#351321;color:#ffd0df}
+a{color:#d9b7ff}.foot{font-size:12px;color:var(--muted);margin-top:18px}
+</style>
+</head>
+<body>
+<main class="card">
+<h1>🔐 Aktivasi Premium</h1>
+<p class="muted">DUKUN CHEAT POSTER GENERATOR · Akses satu kali bayar, berlaku selamanya.</p>
+<form id="form">
+<label for="code">Kode aktivasi</label>
+<input id="code" maxlength="19" placeholder="CONTOH: A1B2C3D4E5F60708" autocomplete="one-time-code" required>
+<button id="submit" type="submit">AKTIFKAN PREMIUM</button>
+</form>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<p class="foot">Belum membeli? Kunjungi <a href="https://lynk.id/kitatopupin" target="_blank" rel="noopener">halaman Lynk.id</a>. Jika kode bermasalah, hubungi penjual dengan bukti pembelian.</p>
+</main>
+<script>
+/* Setelah proyek Supabase dibuat, isi dua nilai konfigurasi ini. Jangan pernah memasukkan service-role key di file HTML. */
+const SUPABASE_URL = "ISI_URL_PROYEK_SUPABASE";
+const SUPABASE_ANON_KEY = "ISI_ANON_PUBLIC_KEY";
+const FUNCTION_URL = SUPABASE_URL.replace(/\/$/, "") + "/functions/v1/activate-premium";
+
+const form=document.getElementById("form");
+const codeInput=document.getElementById("code");
+const submit=document.getElementById("submit");
+const statusBox=document.getElementById("status");
+codeInput.addEventListener("input",()=>{codeInput.value=codeInput.value.toUpperCase().replace(/[^A-F0-9]/g,"").slice(0,16)});
+function show(message,ok=false){statusBox.textContent=message;statusBox.className="status "+(ok?"ok":"err")}
+form.addEventListener("submit",async(e)=>{
+ e.preventDefault();
+ if(SUPABASE_URL.startsWith("ISI_")||SUPABASE_ANON_KEY.startsWith("ISI_")){show("Konfigurasi Supabase belum dipasang. Halaman ini belum siap menerima aktivasi.");return}
+ submit.disabled=true;submit.textContent="MEMERIKSA KODE...";
+ try{
+  const response=await fetch(FUNCTION_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY},body:JSON.stringify({action:"activate",code:codeInput.value})});
+  const data=await response.json();
+  if(!response.ok||!data.valid||!data.token)throw new Error(data.error||"Kode aktivasi gagal diverifikasi.");
+  localStorage.setItem("dukun_cheat_premium_token",data.token);
+  show("Premium berhasil diaktifkan. Akses tersimpan di browser ini. Mengalihkan ke generator...",true);
+  setTimeout(()=>location.href="./index.html",1200);
+ }catch(err){show(err.message||"Tidak dapat menghubungi server. Coba lagi.")}
+ finally{submit.disabled=false;submit.textContent="AKTIFKAN PREMIUM"}
+});
+</script>
+</body>
+</html>
