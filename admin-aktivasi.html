@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Aktivasi — DUKUN CHEAT</title>
+<style>
+:root{color-scheme:dark;--bg:#090612;--panel:#151025;--line:#493078;--purple:#9b35ff;--text:#f5efff;--muted:#b9abcf}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at 15% 0%,#29134a 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif}
+.card{width:min(100%,560px);padding:26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,#1b1230,#100b1d);box-shadow:0 12px 40px #0008}
+h1{font-size:25px;margin:0 0 6px}.muted{color:var(--muted);font-size:13px;margin:0 0 22px}
+label{display:block;font-weight:700;font-size:13px;margin:14px 0 6px}
+input,select{width:100%;padding:13px;border:1px solid #62458b;border-radius:10px;background:#0b0813;color:white;font:inherit}
+button{padding:13px 16px;border:0;border-radius:10px;color:white;font-weight:800;font-size:14px;cursor:pointer;background:linear-gradient(100deg,#6e16e9,#bd22ff)}
+button:disabled{opacity:.55;cursor:wait}.full{width:100%;margin-top:18px}.secondary{background:#2a2040;border:1px solid #57427c}
+.status{margin-top:14px;padding:12px;border-radius:10px;font-size:13px;display:none}.status.ok{display:block;border:1px solid #27875a;background:#103323;color:#b9f6d2}.status.err{display:block;border:1px solid #9b3c5b;background:#351321;color:#ffd0df}
+#results{display:none;margin-top:20px}.codes{white-space:pre-wrap;overflow-wrap:anywhere;padding:14px;border:1px solid #62458b;border-radius:10px;background:#0b0813;font:14px/1.8 ui-monospace,Consolas,monospace;letter-spacing:1px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.actions button{flex:1}
+.note{font-size:12px;color:var(--muted);margin-top:18px}
+</style>
+</head>
+<body>
+<main class="card">
+<h1>ADMIN · DUKUN CHEAT</h1>
+<p class="muted">Panel privat untuk membuat kode aktivasi Premium pembeli.</p>
+<form id="form">
+<label for="adminKey">Kata sandi admin</label>
+<input id="adminKey" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi admin" required>
+<label for="count">Jumlah kode yang dibuat</label>
+<select id="count"><option value="1">1 kode</option><option value="5">5 kode</option><option value="10" selected>10 kode</option><option value="20">20 kode</option></select>
+<button class="full" id="submit" type="submit">BUAT KODE AKTIVASI</button>
+</form>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<section id="results">
+<label>Kode aktivasi baru</label>
+<div id="codes" class="codes"></div>
+<div class="actions"><button type="button" id="copy">SALIN SEMUA KODE</button><button type="button" class="secondary" id="clear">BERSIHKAN</button></div>
+</section>
+<p class="note">Jangan bagikan kata sandi admin. Kode yang sudah dibuat hanya ditampilkan sekali di halaman ini. Simpan atau salin sebelum menutup halaman.</p>
+</main>
+<script>
+const SUPABASE_URL = "https://wrbsgtsieadssxqaryzh.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_Se_bCK0RjocYEqrTMJzBMg_8Byy5T5O";
+const ENDPOINT = SUPABASE_URL.replace(/\/$/,"") + "/functions/v1/activate-premium";
+const $ = id => document.getElementById(id);
+const form = $("form"), submit = $("submit"), statusBox = $("status");
+function show(message,ok=false){statusBox.textContent=message;statusBox.className="status "+(ok?"ok":"err")}
+form.addEventListener("submit",async event=>{
+ event.preventDefault();
+ submit.disabled=true;submit.textContent="MEMBUAT KODE...";
+ $("results").style.display="none";
+ try{
+  const response=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY},body:JSON.stringify({action:"create_codes",adminKey:$("adminKey").value,count:Number($("count").value)})});
+  const data=await response.json();
+  if(!response.ok||!data.valid||!Array.isArray(data.codes))throw new Error(data.error||"Kode gagal dibuat.");
+  $("codes").textContent=data.codes.join("\n");
+  $("results").style.display="block";
+  show(data.codes.length+" kode berhasil dibuat. Segera salin dan simpan.",true);
+ }catch(error){show(error.message||"Tidak dapat menghubungi server.")}
+ finally{submit.disabled=false;submit.textContent="BUAT KODE AKTIVASI"}
+});
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("codes").textContent);$("copy").textContent="TERSALIN!";setTimeout(()=>$("copy").textContent="SALIN SEMUA KODE",1400)}catch(e){show("Gagal menyalin otomatis. Pilih dan salin kode secara manual.")}};
+$("clear").onclick=()=>{$("codes").textContent="";$("results").style.display="none";statusBox.className="status"};
+</script>
+</body>
+</html>
