@@ -42,6 +42,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
 .lock-screen strong{display:block;color:#f1d8ff;font-size:14px}
 .lock-screen span{display:block;color:#c8b5e8;font-size:12px;margin-top:4px}
 .premium-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.premium-link{display:inline-flex;align-items:center;justify-content:center;padding:11px 15px;border-radius:10px;text-decoration:none;font-weight:800;color:white;background:linear-gradient(100deg,#6e16e9,#bd22ff);box-shadow:0 0 18px #8d27ff55}.premium-link.secondary-link{background:#2a2040;border:1px solid #57427c;box-shadow:none}
 .demo-warning{font-size:11px;color:#f5d0a5;margin-top:10px}
 #unlockDemo{background:linear-gradient(100deg,#8a4be8,#d946ef);box-shadow:0 0 18px #a855f755}
 #lockDemo{display:none}
@@ -79,7 +80,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
   <div class="premium-field"><label for="pExtra">Instruksi visual tambahan</label><textarea id="pExtra" placeholder="Contoh: buat panel harga lebih dominan, produk terlihat besar..."></textarea></div>
   <div class="premium-field"><label for="pNegative">Negative prompt</label><textarea id="pNegative" placeholder="Contoh: teks blur, harga berubah, watermark, layout berantakan..."></textarea></div>
  </div>
- <div class="premium-actions"><button type="button" id="unlockDemo">🔑 AKTIVASI KODE PREMIUM</button><button type="button" class="secondary" id="lockDemo">🔒 KELUAR PREMIUM</button></div>
+ <div class="premium-actions"><a class="premium-link" href="https://lynk.id/kitatopupin" target="_blank" rel="noopener">💎 BELI PREMIUM</a><a class="premium-link secondary-link" href="./aktivasi.html">🔑 MASUKKAN KODE AKTIVASI</a><button type="button" class="secondary" id="lockDemo">🔒 KELUAR PREMIUM</button></div>
  <p class="demo-warning">Akses Premium dibuka setelah kode aktivasi diverifikasi oleh server. Pembelian dilakukan melalui Lynk.id.</p>
 </div>
 
@@ -191,7 +192,6 @@ function setPremium(on){
  $("lockDemo").style.display=on?"inline-block":"none";
  buildPrompt();
 }
-$("unlockDemo").onclick=()=>{location.href="./aktivasi.html"};
 $("lockDemo").onclick=()=>{localStorage.removeItem(PREMIUM_TOKEN_KEY);setPremium(false)};
 $("premiumFields").querySelectorAll("input,select,textarea").forEach(el=>el.addEventListener("input",buildPrompt));
 $("pFomo").addEventListener("change",()=>{
