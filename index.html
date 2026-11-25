@@ -161,10 +161,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
 </section>
 </main>
 <script>
-const defaults=[
-["1 Jam","Rp5.000",""],["3 Jam","Rp7.000",""],["6 Jam","Rp13.000",""],["12 Jam","Rp17.000",""],
-["1 Hari","Rp22.000",""],["3 Hari","Rp43.000",""],["7 Hari","Rp107.000",""],["10 Hari","Rp120.000",""]
-];
+const defaults=[];
 const $=id=>document.getElementById(id);
 function addPrice(duration="",publicPrice="",resellerPrice=""){
  const row=document.createElement("div");row.className="price-row";
