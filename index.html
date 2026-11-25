@@ -293,7 +293,7 @@ Hasil akhir harus terlihat seperti poster promosi toko digital premium dengan id
   const size=val("pSize").startsWith("Custom")?(val("pSizeCustom")||"Custom (ukuran belum ditentukan)"):val("pSize");
   const fomo=val("pFomo")==="Tulis sendiri di kolom berikut"?(val("pFomoCustom")||"(belum ditulis)"):val("pFomo");
   const ctaPremium=val("pCta")==="Tulis sendiri di kolom berikut"?(val("pCtaCustom")||"(belum ditulis)"):val("pCta");
-  prompt += "\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+style+"\\n- Format: "+size+"\\n- Kalimat FOMO: "+fomo+"\\n- CTA alternatif: "+ctaPremium+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)");
+  prompt += "\n\nPENGATURAN PREMIUM:\n- Style visual: "+style+"\n- Format: "+size+"\n- Kalimat FOMO: "+fomo+"\n- CTA alternatif: "+ctaPremium+"\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\n- Negative prompt: "+(val("pNegative")||"(tidak ada)");
  }
  $("output").textContent=prompt;return prompt;
 }
