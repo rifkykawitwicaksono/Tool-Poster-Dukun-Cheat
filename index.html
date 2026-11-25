@@ -133,8 +133,74 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
   <div class="premium-field" id="pFomoCustomWrap" style="display:none"><label for="pFomoCustom">Kalimat FOMO custom</label><textarea id="pFomoCustom" placeholder="Tulis kalimat promosi sendiri di sini..."></textarea></div>
   <div class="premium-field"><label for="pCta">CTA premium</label><select id="pCta"><option>AMANKAN SEKARANG!</option><option>JANGAN TUNDA, CHECKOUT SEKARANG!</option><option>KLAIM HARGA SPESIAL!</option><option>UPGRADE SEKARANG!</option><option>BELI SEKARANG!</option><option>PESAN SEKARANG!</option><option>DAPATKAN SEKARANG!</option><option>MULAI SEKARANG!</option><option>COBA SEKARANG!</option><option>AKTIFKAN AKSES SEKARANG!</option><option>GABUNG SEKARANG!</option><option>DAFTAR SEKARANG!</option><option>KLIK UNTUK PESAN!</option><option>HUBUNGI KAMI SEKARANG!</option><option>CHAT ADMIN SEKARANG!</option><option>KLIK DAN DAPATKAN!</option><option>PILIH PAKETMU SEKARANG!</option><option>JADIKAN MILIKMU HARI INI!</option><option>JANGAN LEWATKAN, PESAN SEKARANG!</option><option>AMBIL KESEMPATAN INI!</option><option>DAPATKAN PENAWARAN HARI INI!</option><option>MULAI PENGALAMAN BARUMU!</option><option>LIHAT DETAIL PRODUK!</option><option>CEK SELENGKAPNYA!</option><option>TANYAKAN SEKARANG!</option><option>Tulis sendiri di kolom berikut</option></select></div>
   <div class="premium-field" id="pCtaCustomWrap" style="display:none"><label for="pCtaCustom">Tulis CTA sendiri di kolom berikut</label><textarea id="pCtaCustom" placeholder="Contoh: Klik tombol di bawah dan mulai sekarang!"></textarea></div>
-  <div class="premium-field"><label for="pExtra">Instruksi visual tambahan</label><textarea id="pExtra" placeholder="Contoh: buat panel harga lebih dominan, produk terlihat besar..."></textarea></div>
-  <div class="premium-field"><label for="pNegative">Negative prompt</label><textarea id="pNegative" placeholder="Contoh: teks blur, harga berubah, watermark, layout berantakan..."></textarea></div>
+  <div class="premium-field">
+   <label for="pExtraPreset">Instruksi visual tambahan — pilih contoh</label>
+   <select id="pExtraPreset">
+    <option value="">Pilih instruksi visual untuk ditambahkan...</option>
+    <option>Jadikan produk sebagai fokus utama dan tampilkan lebih besar daripada elemen lainnya.</option>
+    <option>Gunakan pencahayaan studio profesional dengan highlight yang jelas pada produk.</option>
+    <option>Tambahkan efek neon ungu dan biru elektrik dengan glow yang halus.</option>
+    <option>Buat efek 3D realistis dengan kedalaman, bayangan, dan pantulan material.</option>
+    <option>Gunakan latar belakang futuristik dengan pola teknologi dan sirkuit digital.</option>
+    <option>Buat komposisi simetris, rapi, dan memiliki hierarki visual yang kuat.</option>
+    <option>Tonjolkan headline dengan tipografi tebal, besar, dan mudah dibaca.</option>
+    <option>Buat panel harga lebih dominan, rapi, dan mudah dibandingkan.</option>
+    <option>Berikan ruang kosong yang cukup di sekitar teks agar desain tidak sesak.</option>
+    <option>Gunakan efek cinematic lighting dan kontras dramatis seperti iklan film.</option>
+    <option>Tambahkan partikel cahaya kecil untuk memberi kesan dinamis tanpa membuat desain ramai.</option>
+    <option>Gunakan material metallic chrome dengan refleksi realistis.</option>
+    <option>Buat produk tampak melayang dengan bayangan lembut di bawahnya.</option>
+    <option>Gunakan depth of field agar produk lebih menonjol dari latar belakang.</option>
+    <option>Tempatkan logo secara jelas di bagian atas tanpa mengubah bentuk aslinya.</option>
+    <option>Pastikan semua informasi penting memiliki jarak dan alignment yang konsisten.</option>
+    <option>Gunakan aksen warna emas untuk memberi kesan eksklusif dan premium.</option>
+    <option>Tambahkan elemen visual gaming seperti HUD, grid digital, dan garis energi.</option>
+    <option>Buat tampilan minimalis dengan sedikit elemen tetapi tetap terlihat mewah.</option>
+    <option>Gunakan tekstur glossy dan pantulan cahaya pada elemen utama.</option>
+    <option>Pastikan tombol atau ajakan pemesanan terlihat paling menonjol setelah headline.</option>
+    <option>Gunakan perspektif dinamis dan sudut kamera sedikit rendah agar produk terlihat kuat.</option>
+    <option>Seimbangkan area teks dan ilustrasi agar keduanya mudah dibaca.</option>
+    <option>Tambahkan bingkai bercahaya tipis untuk memisahkan panel informasi.</option>
+    <option>Jaga konsistensi warna, pencahayaan, dan gaya ilustrasi di seluruh poster.</option>
+   </select>
+   <button type="button" class="secondary" id="addExtraPreset">+ Tambahkan instruksi</button>
+   <label for="pExtra">Instruksi visual tambahan (bisa diedit)</label>
+   <textarea id="pExtra" placeholder="Pilih contoh di atas lalu tekan Tambahkan instruksi, atau tulis instruksi sendiri..."></textarea>
+  </div>
+  <div class="premium-field">
+   <label for="pNegativePreset">Negative prompt — pilih yang ingin dihindari</label>
+   <select id="pNegativePreset">
+    <option value="">Pilih larangan visual untuk ditambahkan...</option>
+    <option>Hindari teks yang salah eja, huruf acak, atau tulisan yang tidak terbaca.</option>
+    <option>Jangan mengubah angka, nominal harga, nama produk, atau informasi yang diberikan.</option>
+    <option>Jangan menambahkan watermark, tanda tangan, atau logo yang tidak diminta.</option>
+    <option>Hindari gambar buram, pecah, beresolusi rendah, atau detail yang tidak tajam.</option>
+    <option>Jangan memotong produk, logo, headline, atau informasi penting di tepi poster.</option>
+    <option>Hindari tata letak berantakan, terlalu padat, atau elemen yang saling bertumpuk.</option>
+    <option>Jangan gunakan font dekoratif yang sulit dibaca atau ukuran teks terlalu kecil.</option>
+    <option>Hindari warna yang kusam, kontras rendah, atau kombinasi warna yang menyakitkan mata.</option>
+    <option>Jangan menambahkan objek, ikon, karakter, atau dekorasi yang tidak relevan.</option>
+    <option>Hindari bentuk produk yang berubah, terdistorsi, atau tidak sesuai referensi.</option>
+    <option>Jangan membuat logo berubah bentuk, warna, proporsi, atau ejaannya.</option>
+    <option>Hindari anatomi tangan atau jari yang rusak jika ada karakter manusia.</option>
+    <option>Jangan membuat wajah, mata, atau anggota tubuh menjadi tidak proporsional.</option>
+    <option>Hindari efek glow berlebihan yang menutupi teks dan detail produk.</option>
+    <option>Jangan gunakan bayangan terlalu gelap yang menghilangkan detail.</option>
+    <option>Hindari perspektif yang salah, objek melayang tidak wajar, atau proporsi tidak realistis.</option>
+    <option>Jangan menambahkan klaim, diskon, bonus, atau informasi yang tidak diberikan.</option>
+    <option>Hindari teks berulang, elemen duplikat, dan panel informasi ganda.</option>
+    <option>Jangan tempatkan teks penting terlalu dekat dengan batas potong poster.</option>
+    <option>Hindari latar belakang yang lebih dominan daripada produk.</option>
+    <option>Jangan gunakan gaya visual kartun jika diminta tampilan realistis.</option>
+    <option>Hindari noise, grain, artefak AI, dan tekstur yang tidak disengaja.</option>
+    <option>Jangan menambahkan bingkai atau ornamen yang menutupi konten utama.</option>
+    <option>Hindari komposisi miring yang membuat poster terasa tidak seimbang.</option>
+    <option>Jangan mengubah rasio, orientasi, atau ukuran kanvas yang telah ditentukan.</option>
+   </select>
+   <button type="button" class="secondary" id="addNegativePreset">+ Tambahkan negative prompt</button>
+   <label for="pNegative">Negative prompt (bisa diedit)</label>
+   <textarea id="pNegative" placeholder="Pilih larangan di atas lalu tekan Tambahkan, atau tulis sendiri..."></textarea>
+  </div>
  </div>
  <div class="premium-actions"><a class="premium-link" href="https://lynk.id/kitatopupin" target="_blank" rel="noopener">💎 BELI PREMIUM</a><a class="premium-link secondary-link" href="./aktivasi.html">🔑 MASUKKAN KODE AKTIVASI</a><button type="button" class="secondary" id="lockDemo">🔒 KELUAR PREMIUM</button></div>
  <div class="demo-warning">
@@ -289,6 +355,17 @@ updateStyleCustomVisibility();
 setupCustomText("cta","ctaCustomWrap","ctaCustom");
 setupCustomText("slogan","sloganCustomWrap","sloganCustom");
 $("pStyleCustom").addEventListener("input",buildPrompt);
+function appendPreset(selectId,textareaId){
+ const choice=$(selectId).value.trim();
+ if(!choice)return;
+ const area=$(textareaId);
+ const existing=area.value.trim();
+ if(!existing.split("\n").includes(choice)) area.value=existing?existing+"\n"+choice:choice;
+ $(selectId).value="";
+ buildPrompt();
+}
+$("addExtraPreset").addEventListener("click",()=>appendPreset("pExtraPreset","pExtra"));
+$("addNegativePreset").addEventListener("click",()=>appendPreset("pNegativePreset","pNegative"));
 $("pCta").addEventListener("change",()=>{
  const showCustom=val("pCta")==="Tulis sendiri di kolom berikut";
  $("pCtaCustomWrap").style.display=showCustom?"block":"none";
