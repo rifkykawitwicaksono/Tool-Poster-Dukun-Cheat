@@ -205,7 +205,6 @@ function setPremium(on){
  $("premiumFields").setAttribute("aria-disabled",String(!on));
  $("premiumFields").querySelectorAll(".premium-field").forEach(el=>el.classList.toggle("locked",!on));
  $("premiumStatus").textContent=on?"🔓 PREMIUM AKTIF":"🔒 TERKUNCI";
- $("unlockDemo").textContent=on?"✓ PREMIUM AKTIF":"🔑 AKTIVASI KODE PREMIUM";
  $("lockDemo").style.display=on?"inline-block":"none";
  buildPrompt();
 }
