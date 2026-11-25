@@ -73,7 +73,30 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
  <div class="lock-screen" id="premiumLockScreen"><div class="lock-screen-icon">🔒</div><strong>FITUR PREMIUM SEDANG TERKUNCI</strong><span>Masukkan kode aktivasi Premium untuk membuka seluruh pengaturan lanjutan.</span></div>
  <div id="premiumFields" class="premium-fields locked" aria-disabled="true">
   <div class="premium-field"><label for="pStyle">Style visual premium</label><select id="pStyle"><option>Cyberpunk cinematic</option><option>Luxury metallic 3D</option><option>Neon gaming esports</option><option>Futuristic technology</option><option>Dark premium minimal</option></select></div>
-  <div class="premium-field"><label for="pSize">Format poster</label><select id="pSize"><option>Instagram Portrait 1080 × 1350 px</option><option>Instagram Story 1080 × 1920 px</option><option>Square Feed 1080 × 1080 px</option><option>Landscape 1920 × 1080 px</option></select></div>
+  <div class="premium-field"><label for="pSize">Format poster</label><select id="pSize">
+   <option>Instagram Portrait 1080 × 1350 px (4:5)</option>
+   <option>Instagram Square Feed 1080 × 1080 px (1:1)</option>
+   <option>Instagram Landscape Feed 1080 × 566 px (1.91:1)</option>
+   <option>Instagram Story 1080 × 1920 px (9:16)</option>
+   <option>Instagram Reels Cover 1080 × 1920 px (9:16)</option>
+   <option>TikTok Video / Cover 1080 × 1920 px (9:16)</option>
+   <option>Facebook Feed Portrait 1080 × 1350 px (4:5)</option>
+   <option>Facebook Feed Square 1080 × 1080 px (1:1)</option>
+   <option>Facebook Landscape 1200 × 630 px (1.91:1)</option>
+   <option>Facebook Story 1080 × 1920 px (9:16)</option>
+   <option>Facebook Cover 1640 × 624 px</option>
+   <option>YouTube Thumbnail 1280 × 720 px (16:9)</option>
+   <option>YouTube Channel Banner 2560 × 1440 px</option>
+   <option>WhatsApp Status 1080 × 1920 px (9:16)</option>
+   <option>WhatsApp Catalog / Product 1080 × 1080 px (1:1)</option>
+   <option>Marketplace Product 1:1 1200 × 1200 px</option>
+   <option>Marketplace Product 3:4 1200 × 1600 px</option>
+   <option>Poster A4 Portrait 2480 × 3508 px (300 DPI)</option>
+   <option>Poster A3 Portrait 3508 × 4961 px (300 DPI)</option>
+   <option>Flyer A5 Portrait 1748 × 2480 px (300 DPI)</option>
+   <option>Banner Horizontal 1920 × 600 px</option>
+   <option>Custom / ukuran ditentukan sendiri (tulis di instruksi tambahan)</option>
+  </select></div>
   <div class="premium-field"><label for="pFomo">Gaya kalimat FOMO</label><select id="pFomo"><option>Yang lain sudah upgrade, kamu kapan?</option><option>Jangan sampai ketinggalan kesempatan!</option><option>Kesempatan harga spesial tidak selalu ada!</option><option>Jangan cuma jadi penonton!</option><option>Tulis sendiri di kolom berikut</option></select></div>
   <div class="premium-field" id="pFomoCustomWrap" style="display:none"><label for="pFomoCustom">Kalimat FOMO custom</label><textarea id="pFomoCustom" placeholder="Tulis kalimat promosi sendiri di sini..."></textarea></div>
   <div class="premium-field"><label for="pCta">CTA premium</label><select id="pCta"><option>AMANKAN SEKARANG!</option><option>JANGAN TUNDA, CHECKOUT SEKARANG!</option><option>KLAIM HARGA SPESIAL!</option><option>UPGRADE SEKARANG!</option></select></div>
