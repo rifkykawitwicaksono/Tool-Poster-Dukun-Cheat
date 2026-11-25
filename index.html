@@ -131,7 +131,8 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
   </select></div>
   <div class="premium-field"><label for="pFomo">Gaya kalimat FOMO</label><select id="pFomo"><option>Yang lain sudah upgrade, kamu kapan?</option><option>Jangan sampai ketinggalan kesempatan!</option><option>Kesempatan spesial ini jangan dilewatkan!</option><option>Jangan cuma jadi penonton, saatnya ikut mencoba!</option><option>Mulai sekarang sebelum kesempatan ini berlalu!</option><option>Sudah banyak yang mulai, kapan giliran kamu?</option><option>Ambil langkah sekarang, jangan menunda lagi!</option><option>Kesempatan bagus layak dimanfaatkan hari ini!</option><option>Jangan tunggu sampai kamu menyesal melewatkannya!</option><option>Kalau memang kamu butuh, kenapa harus menunda?</option><option>Mulai lebih awal, nikmati manfaatnya lebih cepat!</option><option>Jangan biarkan kesempatan ini hanya lewat di depan mata!</option><option>Saatnya beralih ke pilihan yang lebih praktis!</option><option>Jangan cuma lihat orang lain menikmati manfaatnya!</option><option>Pilihan ada di tanganmu, mulai sekarang atau nanti!</option><option>Berikan kesempatan untuk pengalaman yang lebih baik!</option><option>Jangan tunda hal yang bisa kamu mulai hari ini!</option><option>Ambil keputusan saat kamu sudah siap!</option><option>Kesempatan untuk mencoba dimulai dari satu langkah!</option><option>Yuk, manfaatkan penawaran yang tersedia sekarang!</option><option>Pastikan kamu tidak melewatkan informasi promo ini!</option><option>Selagi penawaran masih tersedia, cek detailnya sekarang!</option><option>Sudah waktunya upgrade pengalamanmu!</option><option>Mulai sekarang dan rasakan perbedaannya!</option><option>Jangan sampai lupa cek penawaran menarik ini!</option><option>Pilihan tepat dimulai dari keputusan yang tepat!</option><option>Tulis sendiri di kolom berikut</option></select></div>
   <div class="premium-field" id="pFomoCustomWrap" style="display:none"><label for="pFomoCustom">Kalimat FOMO custom</label><textarea id="pFomoCustom" placeholder="Tulis kalimat promosi sendiri di sini..."></textarea></div>
-  <div class="premium-field"><label for="pCta">CTA premium</label><select id="pCta"><option>AMANKAN SEKARANG!</option><option>JANGAN TUNDA, CHECKOUT SEKARANG!</option><option>KLAIM HARGA SPESIAL!</option><option>UPGRADE SEKARANG!</option></select></div>
+  <div class="premium-field"><label for="pCta">CTA premium</label><select id="pCta"><option>AMANKAN SEKARANG!</option><option>JANGAN TUNDA, CHECKOUT SEKARANG!</option><option>KLAIM HARGA SPESIAL!</option><option>UPGRADE SEKARANG!</option><option>BELI SEKARANG!</option><option>PESAN SEKARANG!</option><option>DAPATKAN SEKARANG!</option><option>MULAI SEKARANG!</option><option>COBA SEKARANG!</option><option>AKTIFKAN AKSES SEKARANG!</option><option>GABUNG SEKARANG!</option><option>DAFTAR SEKARANG!</option><option>KLIK UNTUK PESAN!</option><option>HUBUNGI KAMI SEKARANG!</option><option>CHAT ADMIN SEKARANG!</option><option>KLIK DAN DAPATKAN!</option><option>PILIH PAKETMU SEKARANG!</option><option>JADIKAN MILIKMU HARI INI!</option><option>JANGAN LEWATKAN, PESAN SEKARANG!</option><option>AMBIL KESEMPATAN INI!</option><option>DAPATKAN PENAWARAN HARI INI!</option><option>MULAI PENGALAMAN BARUMU!</option><option>LIHAT DETAIL PRODUK!</option><option>CEK SELENGKAPNYA!</option><option>TANYAKAN SEKARANG!</option><option>Tulis sendiri di kolom berikut</option></select></div>
+  <div class="premium-field" id="pCtaCustomWrap" style="display:none"><label for="pCtaCustom">Tulis CTA sendiri di kolom berikut</label><textarea id="pCtaCustom" placeholder="Contoh: Klik tombol di bawah dan mulai sekarang!"></textarea></div>
   <div class="premium-field"><label for="pExtra">Instruksi visual tambahan</label><textarea id="pExtra" placeholder="Contoh: buat panel harga lebih dominan, produk terlihat besar..."></textarea></div>
   <div class="premium-field"><label for="pNegative">Negative prompt</label><textarea id="pNegative" placeholder="Contoh: teks blur, harga berubah, watermark, layout berantakan..."></textarea></div>
  </div>
@@ -274,6 +275,12 @@ function updateStyleCustomVisibility(){
 $("pStyle").addEventListener("change",updateStyleCustomVisibility);
 updateStyleCustomVisibility();
 $("pStyleCustom").addEventListener("input",buildPrompt);
+$("pCta").addEventListener("change",()=>{
+ const showCustom=val("pCta")==="Tulis sendiri di kolom berikut";
+ $("pCtaCustomWrap").style.display=showCustom?"block":"none";
+ if(!showCustom)$("pCtaCustom").value="";
+ buildPrompt();
+});
 $("pFomo").addEventListener("change",()=>{
  const showCustom=val("pFomo")==="Tulis sendiri di kolom berikut";
  $("pFomoCustomWrap").style.display=showCustom?"block":"none";
@@ -298,7 +305,7 @@ $("addPrice").onclick=()=>addPrice("","");async function generatePrompt(){
     options:{
      style:val("pStyle").startsWith("Custom")?(val("pStyleCustom")||"Custom (belum dijelaskan)"):val("pStyle"),size:val("pSize"),
      fomo:val("pFomo")==="Tulis sendiri di kolom berikut"?(val("pFomoCustom")||"(belum ditulis)"):val("pFomo"),
-     cta:val("pCta"),extra:val("pExtra"),negative:val("pNegative")
+     cta:val("pCta")==="Tulis sendiri di kolom berikut"?(val("pCtaCustom")||"(belum ditulis)"):val("pCta"),extra:val("pExtra"),negative:val("pNegative")
     }
    })
   });
