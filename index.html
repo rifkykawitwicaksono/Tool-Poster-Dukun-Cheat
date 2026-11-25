@@ -244,7 +244,7 @@ function buildPrompt(){
  const prices=priceLines();
  const contact=val("contact");
  const extra=val("notes");
- const prompt=`Buat poster promosi produk digital profesional untuk brand ${val("brand")}, dengan desain premium futuristik bertema cyber gaming.
+ let prompt=`Buat poster promosi produk digital profesional untuk brand ${val("brand")}, dengan desain premium futuristik bertema cyber gaming.
 
 UKURAN DAN GAYA VISUAL (TETAP, JANGAN DIUBAH):
 - Ukuran Instagram Portrait 1080 × 1350 px.
@@ -288,6 +288,13 @@ ATURAN PENTING:
 - Jangan mengarang informasi tambahan.${extra?`\n\nCATATAN TAMBAHAN:\n${extra}`:""}
 
 Hasil akhir harus terlihat seperti poster promosi toko digital premium dengan identitas visual yang konsisten dengan contoh REZZX.`;
+ if(document.body.classList.contains("premium-on")){
+  const style=val("pStyle").startsWith("Custom")?(val("pStyleCustom")||"Custom (belum dijelaskan)"):val("pStyle");
+  const size=val("pSize").startsWith("Custom")?(val("pSizeCustom")||"Custom (ukuran belum ditentukan)"):val("pSize");
+  const fomo=val("pFomo")==="Tulis sendiri di kolom berikut"?(val("pFomoCustom")||"(belum ditulis)"):val("pFomo");
+  const ctaPremium=val("pCta")==="Tulis sendiri di kolom berikut"?(val("pCtaCustom")||"(belum ditulis)"):val("pCta");
+  prompt += "\\n\\nPENGATURAN PREMIUM:\\n- Style visual: "+style+"\\n- Format: "+size+"\\n- Kalimat FOMO: "+fomo+"\\n- CTA alternatif: "+ctaPremium+"\\n- Instruksi visual: "+(val("pExtra")||"(tidak ada)")+"\\n- Negative prompt: "+(val("pNegative")||"(tidak ada)");
+ }
  $("output").textContent=prompt;return prompt;
 }
 defaults.forEach(x=>addPrice(...x));
@@ -382,39 +389,8 @@ const savedPremiumToken=localStorage.getItem(PREMIUM_TOKEN_KEY);
 setPremium(!!savedPremiumToken);
 verifyPremium(!!savedPremiumToken);
 buildPrompt();
-$("addPrice").onclick=()=>addPrice("","");async function generatePrompt(){
- const basePrompt=buildPrompt();
- if(!document.body.classList.contains("premium-on")) return basePrompt;
- const token=localStorage.getItem(PREMIUM_TOKEN_KEY);
- if(!token){setPremium(false);return basePrompt}
- $("generate").disabled=true;$("generate").textContent="Memeriksa lisensi...";
- try{
-  const response=await fetch(PREMIUM_API_URL.replace(/\/$/,"")+"/functions/v1/activate-premium",{
-   method:"POST",
-   headers:{"Content-Type":"application/json","apikey":PREMIUM_ANON_KEY,"Authorization":"Bearer "+PREMIUM_ANON_KEY},
-   body:JSON.stringify({
-    action:"generate",token,prompt:basePrompt,
-    options:{
-     style:val("pStyle").startsWith("Custom")?(val("pStyleCustom")||"Custom (belum dijelaskan)"):val("pStyle"),size:val("pSize").startsWith("Custom")?(val("pSizeCustom")||"Custom (ukuran belum ditentukan)"):val("pSize"),
-     fomo:val("pFomo")==="Tulis sendiri di kolom berikut"?(val("pFomoCustom")||"(belum ditulis)"):val("pFomo"),
-     cta:val("pCta")==="Tulis sendiri di kolom berikut"?(val("pCtaCustom")||"(belum ditulis)"):val("pCta"),extra:val("pExtra"),negative:val("pNegative")
-    }
-   })
-  });
-  const data=await response.json();
-  if(!response.ok||!data.valid||typeof data.prompt!=="string") throw new Error(data.error||"Lisensi Premium tidak valid.");
-  $("output").textContent=data.prompt;
-  return data.prompt;
- }catch(error){
-  $("output").textContent="Gagal membuat prompt Premium: "+(error.message||"Periksa koneksi dan coba lagi.");
-  return "";
- }finally{$("generate").disabled=false;$("generate").textContent="Perbarui prompt"}
-}
-$("generate").onclick=generatePrompt;
-$("reset").onclick=()=>{
- ["brand","brandline","product","platform","headline","subline","cta","slogan","contact","notes"].forEach((id,i)=>$(id).value=["DUKUN CHEAT","TOP UP • GAME • DIGITAL SOLUTION","REZZX","iOS & ANDROID","AKSES PREMIUM","Solusi premium untuk kebutuhan perangkat iOS dan Android kamu!","ORDER SEKARANG!","Top Up Mudah, Main Lebih Seru!","",""][i]);
- $("prices").innerHTML="";defaults.forEach(x=>addPrice(...x));buildPrompt();
-};
+$("addPrice").onclick=()=>addPrice("","");
+$("generate").onclick=()=>buildPrompt();
 $("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("output").textContent||buildPrompt());$("copy").textContent="Tersalin!";setTimeout(()=>$("copy").textContent="Salin prompt",1400)}catch(e){alert("Tidak bisa menyalin otomatis. Pilih teks prompt lalu salin manual.")}};
 $("download").onclick=()=>{const blob=new Blob([$("output").textContent||buildPrompt()],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="prompt-poster-dukun-cheat.txt";a.click();URL.revokeObjectURL(a.href)};
 </script>
