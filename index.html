@@ -228,7 +228,7 @@ defaults.forEach(x=>addPrice(...x));
 const PREMIUM_API_URL = "https://wrbsgtsieadssxqaryzh.supabase.co";
 const PREMIUM_ANON_KEY = "sb_publishable_Se_bCK0RjocYEqrTMJzBMg_8Byy5T5O";
 const PREMIUM_TOKEN_KEY = "dukun_cheat_premium_token";
-async function verifyPremium(){
+async function verifyPremium(silent=false){
  const token=localStorage.getItem(PREMIUM_TOKEN_KEY);
  if(!token){
   setPremium(false);
@@ -240,7 +240,7 @@ async function verifyPremium(){
   $("premiumStatus").textContent="⚠️ KONFIGURASI SERVER";
   return;
  }
- $("premiumStatus").textContent="⏳ MEMERIKSA LISENSI...";
+ if(!silent) $("premiumStatus").textContent="⏳ MEMERIKSA LISENSI...";
  try{
   const response=await fetch(PREMIUM_API_URL.replace(/\/$/,"")+"/functions/v1/activate-premium",{
    method:"POST",
@@ -255,8 +255,8 @@ async function verifyPremium(){
   }
   setPremium(true);
  }catch(error){
-  setPremium(false);
-  $("premiumStatus").textContent="⚠️ SERVER TIDAK TERJANGKAU";
+  if(!silent) setPremium(false);
+  $("premiumStatus").textContent=silent?"⚠️ KONEKSI SERVER TERGANGGU — CEK SAAT GENERATE":"⚠️ SERVER TIDAK TERJANGKAU";
  }
 }
 function setPremium(on){
@@ -301,8 +301,9 @@ $("pFomo").addEventListener("change",()=>{
  if(!showCustom)$("pFomoCustom").value="";
  buildPrompt();
 });
-setPremium(false);
-verifyPremium();
+const savedPremiumToken=localStorage.getItem(PREMIUM_TOKEN_KEY);
+setPremium(!!savedPremiumToken);
+verifyPremium(!!savedPremiumToken);
 buildPrompt();
 $("addPrice").onclick=()=>addPrice("","");async function generatePrompt(){
  const basePrompt=buildPrompt();
