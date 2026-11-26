@@ -356,7 +356,7 @@ function setupImagePicker(inputId,previewId){
   if(currentUrl)URL.revokeObjectURL(currentUrl);
   currentUrl=null;
   if(!file){preview.removeAttribute("src");preview.style.display="none";buildPrompt();return;}
-  if(!/^image\\/(png|jpeg|webp)$/.test(file.type)){input.value="";preview.removeAttribute("src");preview.style.display="none";alert("Pilih gambar PNG, JPG, atau WEBP.");buildPrompt();return;}
+  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){input.value="";preview.removeAttribute("src");preview.style.display="none";alert("Pilih gambar PNG, JPG, atau WEBP.");buildPrompt();return;}
   currentUrl=URL.createObjectURL(file);preview.src=currentUrl;preview.style.display="block";buildPrompt();
  });
 }
