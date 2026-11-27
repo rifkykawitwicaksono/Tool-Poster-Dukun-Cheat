@@ -22,7 +22,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
 .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
 .preview{background:#0a0712;border:1px solid #4b3375;border-radius:12px;padding:16px;white-space:pre-wrap;min-height:350px;font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;color:#eee4ff;overflow-wrap:anywhere}
 .hint{color:var(--muted);font-size:12px;margin-top:10px}
-.image-reference{margin:12px 0;padding:12px;border:1px solid #49366b;border-radius:12px;background:#100b1c}.image-reference-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.image-preview{display:none;max-width:100%;max-height:150px;object-fit:contain;margin-top:8px;border:1px solid #49366b;border-radius:8px;background:#08060d}.image-note{font-size:11px;color:var(--muted);margin:6px 0 0}@media(max-width:600px){.image-reference-grid{grid-template-columns:1fr}}
+
 @media(max-width:850px){main{grid-template-columns:1fr}}
 
 .premium-box{margin-top:18px;padding:16px;border:1px solid #8b5cf6;border-radius:14px;background:linear-gradient(145deg,#21123b,#100b1d);position:relative;overflow:hidden}
@@ -62,7 +62,7 @@ button.secondary{background:#2a2040;border:1px solid #57427c;box-shadow:none}but
 <label for="platform">Platform / subjudul</label><input id="platform" value="iOS & ANDROID">
 <label for="headline">Headline promosi</label><input id="headline" value="AKSES PREMIUM">
 <label for="subline">Kalimat pendukung</label><textarea id="subline">Solusi premium untuk kebutuhan perangkat iOS dan Android kamu!</textarea>
-<div class="image-reference"><strong>Tambahkan gambar referensi dari perangkat</strong><div class="image-reference-grid"><div><label for="logoImage">Upload logo brand</label><input id="logoImage" type="file" accept="image/png,image/jpeg,image/webp"><img id="logoPreview" class="image-preview" alt="Pratinjau logo yang dipilih"></div><div><label for="productImage">Upload gambar produk</label><input id="productImage" type="file" accept="image/png,image/jpeg,image/webp"><img id="productPreview" class="image-preview" alt="Pratinjau produk yang dipilih"></div></div><p class="image-note">Bisa memilih foto dari HP atau file dari laptop. Gambar hanya ditampilkan sebagai pratinjau di halaman ini; saat memakai prompt, lampirkan juga file gambar tersebut di aplikasi AI tujuan.</p></div>
+
 <label>Pilihan durasi & harga</label>
 <div class="price-head"><span>Durasi</span><span>Harga Publik (kiri)</span><span>Harga Reseller (kanan)</span><span></span></div>
 <div id="prices"></div>
@@ -247,9 +247,6 @@ function buildPrompt(){
  const prices=priceLines();
  const contact=val("contact");
  const extra=val("notes");
-  const logoChosen=$("logoImage").files && $("logoImage").files.length>0;
-  const productChosen=$("productImage").files && $("productImage").files.length>0;
-  const imageInstructions=(logoChosen||productChosen)?"\n\nREFERENSI GAMBAR YANG DIPILIH DARI PERANGKAT:\n"+(logoChosen?"- Lampirkan file logo yang dipilih sebagai referensi. Pertahankan bentuk, warna, proporsi, dan ejaan logo.\n":"")+(productChosen?"- Lampirkan file gambar produk yang dipilih sebagai referensi. Pertahankan bentuk, warna, detail, dan tampilan produk asli.\n":"")+"Catatan: lampirkan file gambar secara terpisah bersama prompt ini di aplikasi AI pembuat gambar.":"";
  let prompt=`Buat poster promosi produk digital profesional untuk brand ${val("brand")}, dengan desain premium futuristik bertema cyber gaming.
 
 UKURAN DAN GAYA VISUAL (TETAP, JANGAN DIUBAH):
@@ -293,7 +290,7 @@ ATURAN PENTING:
 - Pastikan seluruh teks terbaca jelas dan tidak terpotong.
 - Jangan mengarang informasi tambahan.${extra?`\n\nCATATAN TAMBAHAN:\n${extra}`:""}
 
-`+imageInstructions;
+`;
  if(document.body.classList.contains("premium-on")){
   const style=val("pStyle").startsWith("Custom")?(val("pStyleCustom")||"Custom (belum dijelaskan)"):val("pStyle");
   const size=val("pSize").startsWith("Custom")?(val("pSizeCustom")||"Custom (ukuran belum ditentukan)"):val("pSize");
@@ -349,19 +346,6 @@ function setPremium(on){
  buildPrompt();
 }
 $("lockDemo").onclick=()=>{localStorage.removeItem(PREMIUM_TOKEN_KEY);setPremium(false)};
-function setupImagePicker(inputId,previewId){
- const input=$(inputId),preview=$(previewId);let currentUrl=null;
- input.addEventListener("change",()=>{
-  const file=input.files&&input.files[0];
-  if(currentUrl)URL.revokeObjectURL(currentUrl);
-  currentUrl=null;
-  if(!file){preview.removeAttribute("src");preview.style.display="none";buildPrompt();return;}
-  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){input.value="";preview.removeAttribute("src");preview.style.display="none";alert("Pilih gambar PNG, JPG, atau WEBP.");buildPrompt();return;}
-  currentUrl=URL.createObjectURL(file);preview.src=currentUrl;preview.style.display="block";buildPrompt();
- });
-}
-setupImagePicker("logoImage","logoPreview");
-setupImagePicker("productImage","productPreview");
 $("premiumFields").querySelectorAll("input,select,textarea").forEach(el=>el.addEventListener("input",buildPrompt));
 function updateStyleCustomVisibility(){
  const showCustom=val("pStyle").startsWith("Custom");
